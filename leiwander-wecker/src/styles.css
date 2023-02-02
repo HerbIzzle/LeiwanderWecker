@@ -2,3 +2,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html{
+  background-color: #fbfbfb;
+}
+
+.bg-clr{
+  background-color: #fbfbfb;
+}
+
+.txt-fnt-fmly{
+font-family: "Avenir LT W01 85 Heavy",Arial,Helvetica,sans-serif;
+}

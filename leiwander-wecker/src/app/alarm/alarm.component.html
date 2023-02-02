@@ -1,16 +1,18 @@
 <div
-  class="flex max-w-screen-sm justify-evenly items-center mx-auto border-2 space-x-2 -mt-28 relative z-40">
-  <div class="text-4xl">
-    <select [(ngModel)]="selectedHour">
+  class="flex max-w-screen-md justify-evenly items-center mx-auto -mt-28 relative z-40">
+  <div class="text-4xl text-wien-it-blue text-center w-56 py-3 px-3.5 border-2 border-wien-it-blue rounded-full group hover:bg-gray-100 hover:drop-shadow-xl">
+    <select class=" bg-clr txt-fnt-fmly group-hover:bg-gray-100" [(ngModel)]="selectedHour">
       <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
     </select>
-    <select [(ngModel)]="selectedMinute">
+    <select class="bg-clr txt-fnt-fmly group-hover:bg-gray-100" [(ngModel)]="selectedMinute">
       <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
     </select>
   </div>
-  <div class="text-4xl">
-    <button (click)="addAlarm()">Add Alarm</button>
-  </div>
+
+
+    <button
+      class="text-4xl txt-fnt-fmly text-wien-it-blue border-2 border-wien-it-blue rounded-full w-56 py-4 px-3.5 hover:bg-gray-100 hover:drop-shadow-xl"
+      (click)="addAlarm()">Hinzufügen</button>
 </div>
 
 <div>
@@ -26,17 +28,16 @@
 
 </div>
 
-<div class="absolute top-20 right-20 border border border-gray-500 rounded-b-full"
-     [ngClass]="!soundEnabled ? 'bg-gray-200':''">
+<div class="absolute top-20 right-20">
   <button
-    class="p-5"
-
+    class="p-5 border border-3 border-wien-it-blue rounded-full"
+    [ngClass]="!soundEnabled ? 'bg-gray-100':''"
     (click)="toggleSound()">
-    <svg *ngIf="soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
+    <svg *ngIf="soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-wien-it-blue">
       <path stroke-linecap="round" stroke-linejoin="round"
             d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
     </svg>
-    <svg *ngIf="!soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
+    <svg *ngIf="!soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-wien-it-blue">
       <path stroke-linecap="round" stroke-linejoin="round"
             d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/>
     </svg>
