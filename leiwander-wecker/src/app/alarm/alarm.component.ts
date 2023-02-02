@@ -12,8 +12,9 @@ export class AlarmComponent implements OnInit {
   selectedHour = '00';
   selectedMinute = '00';
   alarms = [];
+  snoozeTime = 1;
   soundEnabled = true;
-  snoozeTime = 5;
+  activeAlarm = false;
   @ViewChild('alarmSound', {static: false}) alarmSound: ElementRef<HTMLAudioElement>;
 
   constructor() {
@@ -36,6 +37,7 @@ export class AlarmComponent implements OnInit {
           && this.soundEnabled
         ) {
           this.alarmSound.nativeElement.play()
+          this.activeAlarm = true
           console.log(now.getHours().toString() + ' : ' + now.getMinutes().toString())
           console.log(this.selectedHour + ' : ' + this.selectedMinute)
         }
@@ -56,6 +58,13 @@ export class AlarmComponent implements OnInit {
     this.selectedMinute = '00';
   }
 
+  removeAlarm(alarmToRemove: { hour: string, minute: string }) {
+    this.alarms = this.alarms.filter(alarm => {
+      return !(alarm.hour === alarmToRemove.hour && alarm.minute === alarmToRemove.minute);
+    });
+    localStorage.setItem('alarms', JSON.stringify(this.alarms));
+  }
+
   toggleSound() {
     this.soundEnabled = !this.soundEnabled
     if(this.alarmSound.nativeElement.play()){
@@ -68,11 +77,22 @@ export class AlarmComponent implements OnInit {
   snooze() {
     this.alarmSound.nativeElement.pause();
     this.soundEnabled = false;
+    let triggeredAlarmIndex;
+    for (let i = 0; i < this.alarms.length; i++) {
+      if (this.alarms[i].triggered) {
+        triggeredAlarmIndex = i;
+        break;
+      }
+    }
     let nextSnoozeTime = new Date();
     nextSnoozeTime.setMinutes(nextSnoozeTime.getMinutes() + this.snoozeTime);
-    this.alarms.push({
+    let snoozeAlarm = {
       hour: nextSnoozeTime.getHours().toString().padStart(2, '0'),
-      minute: nextSnoozeTime.getMinutes().toString().padStart(2, '0')
-    });
+      minute: nextSnoozeTime.getMinutes().toString().padStart(2, '0'),
+      triggered: true
+    };
+    this.alarms.splice(triggeredAlarmIndex + 1, 0, snoozeAlarm);
+    localStorage.setItem('alarms', JSON.stringify(this.alarms));
+    this.activeAlarm = false
   }
 }

@@ -1,23 +1,51 @@
-<div class="alarm-clock-container">
-  <div class="alarm-time-picker">
+<div
+  class="flex max-w-screen-sm justify-evenly items-center mx-auto border-2 space-x-2 -mt-28 relative z-40">
+  <div class="text-4xl">
     <select [(ngModel)]="selectedHour">
       <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
     </select>
     <select [(ngModel)]="selectedMinute">
       <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
     </select>
+  </div>
+  <div class="text-4xl">
     <button (click)="addAlarm()">Add Alarm</button>
   </div>
-  <ul class="alarm-list">
-    <li *ngFor="let alarm of alarms">{{alarm.hour}}:{{alarm.minute}}</li>
-  </ul>
 </div>
-<audio #alarmSound src="assets/thrash-metal-136545.mp3"></audio>
+
 <div>
-  <button (click)="toggleSound()">
-    Stumm schalten</button>
+  <ul class="alarm-list mt-20 text-center">
+    <li
+      class="text-4xl"
+      *ngFor="let alarm of alarms">{{alarm.hour}}:{{alarm.minute}}
+      <button (click)="removeAlarm(alarm)">
+        X
+      </button>
+    </li>
+  </ul>
+
 </div>
-<button (click)="snooze()">Snooze Time</button>
 
+<div class="absolute top-20 right-20 border border border-gray-500 rounded-b-full"
+     [ngClass]="!soundEnabled ? 'bg-gray-200':''">
+  <button
+    class="p-5"
 
+    (click)="toggleSound()">
+    <svg *ngIf="soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
+    </svg>
+    <svg *ngIf="!soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/>
+    </svg>
+  </button>
+</div>
+<button
+  class=""
+  *ngIf="activeAlarm"
+  (click)="snooze()">Snooze Time
+</button>
 
+<audio #alarmSound src="assets/thrash-metal-136545.mp3"></audio>
