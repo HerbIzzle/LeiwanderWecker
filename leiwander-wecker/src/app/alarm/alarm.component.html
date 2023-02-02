@@ -1,0 +1,23 @@
+<div class="alarm-clock-container">
+  <div class="alarm-time-picker">
+    <select [(ngModel)]="selectedHour">
+      <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+    </select>
+    <select [(ngModel)]="selectedMinute">
+      <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
+    </select>
+    <button (click)="addAlarm()">Add Alarm</button>
+  </div>
+  <ul class="alarm-list">
+    <li *ngFor="let alarm of alarms">{{alarm.hour}}:{{alarm.minute}}</li>
+  </ul>
+</div>
+<audio #alarmSound src="assets/thrash-metal-136545.mp3"></audio>
+<div>
+  <button (click)="toggleSound()">
+    Stumm schalten</button>
+</div>
+<button (click)="snooze()">Snooze Time</button>
+
+
+
