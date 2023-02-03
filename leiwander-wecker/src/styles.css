@@ -5,6 +5,7 @@
 
 html{
   background-color: #fbfbfb;
+  min-width: fit-content;
 }
 
 .bg-clr{

@@ -1,5 +1,5 @@
 <div
-  class="flex max-w-screen-md justify-evenly items-center mx-auto -mt-28 relative z-40">
+  class="flex max-md:flex-col max-md:space-y-4 max-w-screen-md justify-evenly items-center mx-auto -mt-14 md:-mt-28 relative z-40">
   <div class="text-4xl text-wien-it-blue text-center w-56 py-3 px-3.5 border-2 border-wien-it-blue rounded-full group hover:bg-gray-100 hover:drop-shadow-xl">
     <select class=" bg-clr txt-fnt-fmly group-hover:bg-gray-100" [(ngModel)]="selectedHour">
       <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
@@ -16,12 +16,16 @@
 </div>
 
 <div>
-  <ul class="alarm-list mt-20 text-center">
+  <ul class="alarm-list mt-20 text-center flex-col">
     <li
-      class="text-4xl"
+      class="text-4xl my-6 mx-auto txt-fnt-fmly text-wien-it-blue border-2 border-wien-it-blue rounded-full w-3/6 py-4 px-3.5 hover:bg-gray-100 hover:drop-shadow-xl"
       *ngFor="let alarm of alarms">{{alarm.hour}}:{{alarm.minute}}
-      <button (click)="removeAlarm(alarm)">
-        X
+      <button
+        class="ml-20"
+        (click)="removeAlarm(alarm)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </button>
     </li>
   </ul>
