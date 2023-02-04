@@ -91,6 +91,7 @@ export class AlarmComponent implements OnInit {
     this.alarm.hour = ''
     this.alarm.minute = ''
     this.alarm.snooze = false
+    this.snoozeMsg = false
     localStorage.removeItem('alarm');
     this.alarmSound.nativeElement.pause()
   }
@@ -134,7 +135,8 @@ export class AlarmComponent implements OnInit {
       };
       localStorage.setItem('alarm', JSON.stringify(this.alarm));
       this.activeAlarm = false;
-      this.toggleCloseAlarm = false
+      this.toggleCloseAlarm = false;
+      this.snoozeMsg = false
     }
   }
 
