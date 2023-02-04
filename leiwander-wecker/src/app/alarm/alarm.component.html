@@ -48,7 +48,7 @@
   *ngIf="show"
   class="max-md:px-20 w-full relative z-50 max-w-screen-md mx-auto transition ease-in
        hover:scale-105 group hover:drop-shadow-2xl max-md:-mt-28 ">
-  <span class=" blink text-4xl block text-center text-wien-it-blue" *ngIf="true" [@blink]="'blinking'">Jetzt aber wirklich!</span>
+  <span class=" blink text-4xl block text-center text-wien-it-blue" *ngIf="snoozeMsg" [@blink]="'blinking'">Jetzt aber wirklich!</span>
 
   <ul class="alarm-list text-center flex-col ">
     <li
