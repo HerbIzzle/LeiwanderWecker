@@ -1,9 +1,23 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {animate, group, query, state, style, transition, trigger} from "@angular/animations";
+import { Alarm } from "./alarm"
+
 
 @Component({
   selector: 'app-alarm',
   templateUrl: './alarm.component.html',
-  styleUrls: ['./alarm.component.css']
+  styleUrls: ['./alarm.component.css'],
+  animations:[ trigger('show', [
+    transition(':enter', [
+      style({ opacity: 0 }),
+      animate(800, style({ opacity: 1 }))
+    ]),
+    transition(':leave', [
+      style({ opacity: 1 }),
+      animate(0, style({ opacity: 0 }))
+    ])
+  ])
+  ]
 })
 export class AlarmComponent implements OnInit {
 
@@ -11,37 +25,46 @@ export class AlarmComponent implements OnInit {
   minutes = Array.from({length: 60}, (_, i) => `0${i}`.slice(-2));
   selectedHour = '00';
   selectedMinute = '00';
-  alarms = [];
-  snoozeTime = 1;
+  alarm: Alarm = { hour: '', minute: '', snooze: false };
+  snoozeTime = 5;
+  // show=false;
   soundEnabled = true;
   activeAlarm = false;
+  hideSettings = false;
   @ViewChild('alarmSound', {static: false}) alarmSound: ElementRef<HTMLAudioElement>;
+  show: boolean;
+  toggleCloseAlarm= false;
 
   constructor() {
 
-    const storedAlarms = JSON.parse(localStorage.getItem('alarms'))
-    if (storedAlarms) {
-      this.alarms = storedAlarms
-      console.log(this.alarms)
+    const storedAlarm = JSON.parse(localStorage.getItem('alarm'));
+    if (storedAlarm) {
+      this.alarm = storedAlarm;
+      this.show = true
+      this.hideSettings = true
+      this.toggleCloseAlarm = false
+      console.log(this.alarm);
     }
 
     setInterval(() => {
       const now = new Date()
-      console.log(this.alarms)
+
       console.log(now.getHours().toString() + ' : ' + now.getMinutes().toString())
 
 
-      this.alarms.forEach(alarm => {
-        if (now.getHours().toString().padStart(2, '0') === alarm.hour
-          && now.getMinutes().toString().padStart(2, '0') === alarm.minute
+
+        if (this.alarm && now.getHours().toString().padStart(2, '0') === this.alarm.hour
+          && now.getMinutes().toString().padStart(2, '0') === this.alarm.minute
           && this.soundEnabled
         ) {
           this.alarmSound.nativeElement.play()
+          this.toggleCloseAlarm = true
           this.activeAlarm = true
+          this.hideSettings = true
           console.log(now.getHours().toString() + ' : ' + now.getMinutes().toString())
           console.log(this.selectedHour + ' : ' + this.selectedMinute)
         }
-      })
+
     }, 1000)
 
   }
@@ -50,19 +73,35 @@ export class AlarmComponent implements OnInit {
   }
 
 
-  addAlarm() {
-
-    this.alarms.push({hour: this.selectedHour, minute: this.selectedMinute});
-    localStorage.setItem('alarms', JSON.stringify(this.alarms));
-    this.selectedHour = '00';
-    this.selectedMinute = '00';
+  stopAlarm(){
+    this.toggleCloseAlarm = false
+    this.hideSettings = false
+    this.show= false
+    this.alarm.hour = ''
+    this.alarm.minute = ''
+    localStorage.removeItem('alarm');
+    this.alarmSound.nativeElement.pause()
   }
 
-  removeAlarm(alarmToRemove: { hour: string, minute: string }) {
-    this.alarms = this.alarms.filter(alarm => {
-      return !(alarm.hour === alarmToRemove.hour && alarm.minute === alarmToRemove.minute);
-    });
-    localStorage.setItem('alarms', JSON.stringify(this.alarms));
+  addAlarm() {
+
+    this.alarm = {hour: this.selectedHour, minute: this.selectedMinute,snooze:false};
+    localStorage.setItem('alarm', JSON.stringify(this.alarm));
+    this.selectedHour = '00';
+    this.selectedMinute = '00';
+    this.hideSettings = true
+    this.show=true
+    console.log(this.alarm)
+  }
+
+  removeAlarm(alarmToRemove) {
+    this.stopAlarm()
+    console.log(alarmToRemove)
+    if (this.alarm.hour === alarmToRemove.hour && this.alarm.minute === alarmToRemove.minute) {
+      localStorage.removeItem('alarm');
+      this.hideSettings = false;
+      this.show= false
+    }
   }
 
   toggleSound() {
@@ -76,23 +115,19 @@ export class AlarmComponent implements OnInit {
 
   snooze() {
     this.alarmSound.nativeElement.pause();
-    this.soundEnabled = false;
-    let triggeredAlarmIndex;
-    for (let i = 0; i < this.alarms.length; i++) {
-      if (this.alarms[i].triggered) {
-        triggeredAlarmIndex = i;
-        break;
-      }
+    // this.soundEnabled = false;
+    if (this.alarm) {
+      let nextSnoozeTime = new Date();
+      nextSnoozeTime.setMinutes(nextSnoozeTime.getMinutes() + this.snoozeTime);
+      this.alarm = {
+        hour: nextSnoozeTime.getHours().toString().padStart(2, '0'),
+        minute: nextSnoozeTime.getMinutes().toString().padStart(2, '0'),
+        snooze: true
+      };
+      localStorage.setItem('alarm', JSON.stringify(this.alarm));
+      this.activeAlarm = false;
+      this.toggleCloseAlarm = false
     }
-    let nextSnoozeTime = new Date();
-    nextSnoozeTime.setMinutes(nextSnoozeTime.getMinutes() + this.snoozeTime);
-    let snoozeAlarm = {
-      hour: nextSnoozeTime.getHours().toString().padStart(2, '0'),
-      minute: nextSnoozeTime.getMinutes().toString().padStart(2, '0'),
-      triggered: true
-    };
-    this.alarms.splice(triggeredAlarmIndex + 1, 0, snoozeAlarm);
-    localStorage.setItem('alarms', JSON.stringify(this.alarms));
-    this.activeAlarm = false
   }
+
 }

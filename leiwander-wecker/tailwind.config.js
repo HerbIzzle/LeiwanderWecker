@@ -14,8 +14,14 @@ module.exports = {
       '8': '8px',
     },
     extend: {
+
+      height: {
+        '18': '4.5rem',
+      },
       colors: {
         'wien-it-blue': '#006274',
+        'wien-it-blue-borders': '#003E4F',
+         'whiteish': '#F2F2F2'
       },
     },
   },

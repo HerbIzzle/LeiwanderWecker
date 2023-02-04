@@ -1,56 +1,90 @@
-<div
-  class="flex max-md:flex-col max-md:space-y-4 max-w-screen-md justify-evenly items-center mx-auto -mt-14 md:-mt-28 relative z-40">
-  <div class="text-4xl text-wien-it-blue text-center w-56 py-3 px-3.5 border-2 border-wien-it-blue rounded-full group hover:bg-gray-100 hover:drop-shadow-xl">
-    <select class=" bg-clr txt-fnt-fmly group-hover:bg-gray-100" [(ngModel)]="selectedHour">
-      <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
-    </select>
-    <select class="bg-clr txt-fnt-fmly group-hover:bg-gray-100" [(ngModel)]="selectedMinute">
-      <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
-    </select>
-  </div>
-
-
-    <button
-      class="text-4xl txt-fnt-fmly text-wien-it-blue border-2 border-wien-it-blue rounded-full w-56 py-4 px-3.5 hover:bg-gray-100 hover:drop-shadow-xl"
-      (click)="addAlarm()">Hinzufügen</button>
-</div>
-
-<div>
-  <ul class="alarm-list mt-20 text-center flex-col">
-    <li
-      class="text-4xl my-6 mx-auto txt-fnt-fmly text-wien-it-blue border-2 border-wien-it-blue rounded-full w-3/6 py-4 px-3.5 hover:bg-gray-100 hover:drop-shadow-xl"
-      *ngFor="let alarm of alarms">{{alarm.hour}}:{{alarm.minute}}
-      <button
-        class="ml-20"
-        (click)="removeAlarm(alarm)">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </button>
-    </li>
-  </ul>
-
-</div>
-
-<div class="absolute top-20 right-20">
+<div class="fixed top-14 right-14 sm:top-20 sm:right-20">
   <button
     class="p-5 border border-3 border-wien-it-blue rounded-full"
     [ngClass]="!soundEnabled ? 'bg-gray-100':''"
     (click)="toggleSound()">
-    <svg *ngIf="soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-wien-it-blue">
+    <svg *ngIf="soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+         class="w-8 h-8 text-wien-it-blue">
       <path stroke-linecap="round" stroke-linejoin="round"
             d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
     </svg>
-    <svg *ngIf="!soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-wien-it-blue">
+    <svg *ngIf="!soundEnabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+         class="w-8 h-8 text-wien-it-blue">
       <path stroke-linecap="round" stroke-linejoin="round"
             d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/>
     </svg>
   </button>
 </div>
-<button
-  class=""
-  *ngIf="activeAlarm"
-  (click)="snooze()">Snooze Time
-</button>
+
+<div
+  [ngClass]="hideSettings ? 'invisible':'block'"
+  class="flex max-md:flex-col max-md:space-y-4 max-w-screen-md justify-evenly items-center mx-auto -mt-14 md:-mt-28 relative z-40">
+  <div
+    class="transition ease-in
+       hover:scale-105 text-4xl text-whiteish bg-wien-it-blue text-center h-18 w-60 py-3 px-3.5 border-2 border-wien-it-blue-borders rounded-full group hover:drop-shadow-2xl">
+    <select class="bg-wien-it-blue text-whiteish txt-fnt-fmly group-hover:scale-105" [(ngModel)]="selectedHour">
+      <option
+        *ngFor="let hour of hours" [value]="hour">{{hour}}h
+      </option>
+    </select>
+    <select class="bg-wien-it-blue text-whiteish txt-fnt-fmly group-hover:scale-105" [(ngModel)]="selectedMinute">
+      <option
+        *ngFor="let minute of minutes" [value]="minute">{{minute}}min
+      </option>
+    </select>
+  </div>
+
+
+  <button
+    class="text-4xl txt-fnt-fmly text-whiteish bg-wien-it-blue border-2 border-wien-it-blue-borders rounded-full h-18 w-60 py-4 px-3.5
+       transition ease-in
+       hover:scale-105 hover:drop-shadow-2xl"
+    (click)="addAlarm()">Hinzufügen
+  </button>
+</div>
+
+<div
+  *ngIf="show"
+  class="max-md:px-20 w-full relative z-50 max-w-screen-md mx-auto transition ease-in
+       hover:scale-105 group hover:drop-shadow-2xl">
+  <ul class="alarm-list text-center flex-col">
+    <li
+      @show
+      class="flex justify-between max-md:-mt-28 text-4xl my-6 mx-auto txt-fnt-fmly text-whiteish border-2 bg-wien-it-blue border-wien-it-blue-borders rounded-full w-full md:w-9/12 py-4 pl-10 md:pl-20 md:pr-14  hover:drop-shadow-xl"
+    >{{alarm.hour}}:{{alarm.minute}} Uhr
+
+      <button
+        class="max-md:pr-6"
+        (click)="removeAlarm(alarm)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div
+  *ngIf="toggleCloseAlarm"
+  class="max-w-screen-md mx-auto flex md:justify-evenly justify-between max-md:px-20">
+
+  <button
+    class="text-4xl txt-fnt-fmly text-whiteish bg-wien-it-blue border-2 border-wien-it-blue-borders rounded-full h-18 w-44 md:w-60 py-4 px-3.5
+       transition ease-in
+       hover:scale-105 hover:drop-shadow-2xl"
+    (click)="stopAlarm()"
+  >Stop
+  </button>
+
+  <button
+    class="text-4xl txt-fnt-fmly text-whiteish bg-wien-it-blue border-2 border-wien-it-blue-borders rounded-full h-18 w-44 md:w-60 py-4 px-3.5
+       transition ease-in
+       hover:scale-105 hover:drop-shadow-2xl"
+    (click)="snooze()"
+  >Snooze
+  </button>
+
+</div>
 
 <audio #alarmSound src="assets/thrash-metal-136545.mp3"></audio>
+
