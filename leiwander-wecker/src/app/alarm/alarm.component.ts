@@ -58,15 +58,10 @@ export class AlarmComponent implements OnInit {
       this.show = true
       this.hideSettings = true
       this.toggleCloseAlarm = false
-      console.log(this.alarm);
     }
 
     setInterval(() => {
       const now = new Date()
-
-      console.log(now.getHours().toString() + ' : ' + now.getMinutes().toString())
-
-
 
         if (this.alarm && now.getHours().toString().padStart(2, '0') === this.alarm.hour
           && now.getMinutes().toString().padStart(2, '0') === this.alarm.minute
@@ -108,12 +103,10 @@ export class AlarmComponent implements OnInit {
     this.selectedMinute = '00';
     this.hideSettings = true
     this.show=true
-    console.log(this.alarm)
   }
 
   removeAlarm(alarmToRemove) {
     this.stopAlarm()
-    console.log(alarmToRemove)
     if (this.alarm.hour === alarmToRemove.hour && this.alarm.minute === alarmToRemove.minute) {
       localStorage.removeItem('alarm');
       this.hideSettings = false;
@@ -127,12 +120,10 @@ export class AlarmComponent implements OnInit {
       this.alarmSound.nativeElement.pause()
       console.log('pause')
     }
-    console.log(this.soundEnabled)
   }
 
   snooze() {
     this.alarmSound.nativeElement.pause();
-    // this.soundEnabled = false;
     if (this.alarm) {
       let nextSnoozeTime = new Date();
       nextSnoozeTime.setMinutes(nextSnoozeTime.getMinutes() + this.snoozeTime);
