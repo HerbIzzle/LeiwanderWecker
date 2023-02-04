@@ -43,14 +43,17 @@
   </button>
 </div>
 
+
 <div
   *ngIf="show"
   class="max-md:px-20 w-full relative z-50 max-w-screen-md mx-auto transition ease-in
-       hover:scale-105 group hover:drop-shadow-2xl">
-  <ul class="alarm-list text-center flex-col">
+       hover:scale-105 group hover:drop-shadow-2xl max-md:-mt-28 ">
+  <span class=" blink text-4xl block text-center text-wien-it-blue" *ngIf="true" [@blink]="'blinking'">Jetzt aber wirklich!</span>
+
+  <ul class="alarm-list text-center flex-col ">
     <li
       @show
-      class="flex justify-between max-md:-mt-28 text-4xl my-6 mx-auto txt-fnt-fmly text-whiteish border-2 bg-wien-it-blue border-wien-it-blue-borders rounded-full w-full md:w-9/12 py-4 pl-10 md:pl-20 md:pr-14  hover:drop-shadow-xl"
+      class="flex justify-between items-center text-4xl my-6 mx-auto txt-fnt-fmly text-whiteish border-2 bg-wien-it-blue border-wien-it-blue-borders rounded-full w-full md:w-9/12 py-4 pl-10 md:pl-20 md:pr-14  hover:drop-shadow-xl"
     >{{alarm.hour}}:{{alarm.minute}} Uhr
 
       <button
@@ -87,4 +90,6 @@
 </div>
 
 <audio #alarmSound src="assets/thrash-metal-136545.mp3"></audio>
+
+
 

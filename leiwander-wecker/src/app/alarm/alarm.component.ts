@@ -16,7 +16,22 @@ import { Alarm } from "./alarm"
       style({ opacity: 1 }),
       animate(0, style({ opacity: 0 }))
     ])
-  ])
+  ]),
+      trigger('blink', [
+        state('blinking', style({
+          opacity: 1
+        })),
+        transition('* => blinking', [
+          animate(1000, style({
+            opacity: 0
+          }))
+        ]),
+        transition('blinking => *', [
+          animate(1000, style({
+            opacity: 1
+          }))
+        ])
+      ])
   ]
 })
 export class AlarmComponent implements OnInit {
@@ -27,7 +42,7 @@ export class AlarmComponent implements OnInit {
   selectedMinute = '00';
   alarm: Alarm = { hour: '', minute: '', snooze: false };
   snoozeTime = 5;
-  // show=false;
+  snoozeMsg= false
   soundEnabled = true;
   activeAlarm = false;
   hideSettings = false;
@@ -61,8 +76,9 @@ export class AlarmComponent implements OnInit {
           this.toggleCloseAlarm = true
           this.activeAlarm = true
           this.hideSettings = true
-          console.log(now.getHours().toString() + ' : ' + now.getMinutes().toString())
-          console.log(this.selectedHour + ' : ' + this.selectedMinute)
+         if(this.alarm.snooze) {
+           this.snoozeMsg = true
+        }
         }
 
     }, 1000)
@@ -79,6 +95,7 @@ export class AlarmComponent implements OnInit {
     this.show= false
     this.alarm.hour = ''
     this.alarm.minute = ''
+    this.alarm.snooze = false
     localStorage.removeItem('alarm');
     this.alarmSound.nativeElement.pause()
   }
