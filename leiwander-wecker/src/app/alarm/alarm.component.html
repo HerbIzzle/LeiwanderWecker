@@ -1,3 +1,4 @@
+
 <div class="fixed top-14 right-14 sm:top-20 sm:right-20">
   <button
     class="p-5 border border-3 border-wien-it-blue rounded-full"
@@ -47,7 +48,7 @@
 <div
   *ngIf="show"
   class="max-md:px-20 w-full relative z-50 max-w-screen-md mx-auto transition ease-in
-       hover:scale-105 group hover:drop-shadow-2xl max-md:-mt-28 ">
+       hover:scale-105 group hover:drop-shadow-2xl max-md:-mt-28 md:-mt-24 ">
   <span class=" blink text-4xl block text-center text-wien-it-blue" *ngIf="snoozeMsg" [@blink]="'blinking'">Jetzt aber wirklich!</span>
 
   <ul class="alarm-list text-center flex-col ">
@@ -69,7 +70,7 @@
 
 <div
   *ngIf="toggleCloseAlarm"
-  class="max-w-screen-md mx-auto flex md:justify-evenly justify-between max-md:px-20">
+  class="max-w-screen-md mx-auto flex md:justify-evenly justify-between max-md:px-20 relative z-50">
 
   <button
     class="text-4xl txt-fnt-fmly text-whiteish bg-wien-it-blue border-2 border-wien-it-blue-borders rounded-full h-18 w-44 md:w-60 py-4 px-3.5
