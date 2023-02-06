@@ -21,9 +21,13 @@ module.exports = {
       colors: {
         'wien-it-blue': '#006274',
         'wien-it-blue-borders': '#003E4F',
-         'whiteish': '#F2F2F2'
+        'whiteish': '#F2F2F2'
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
+
 }
